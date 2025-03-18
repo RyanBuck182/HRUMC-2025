@@ -117,9 +117,6 @@ def main():
     minimax.select("r")
     minimax.visualize_graph_sequential("minimax")
 
-    minimax.set_value("r", 12)
-    minimax.visualize_graph_sequential("minimax")
-
     minimax.select(None)
     minimax.select_edge("r", "b")
     minimax.visualize_graph_sequential("minimax")
