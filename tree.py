@@ -93,7 +93,8 @@ class GraphVizTree:
     def visualize_graph_sequential(self, file_prefix: str) -> None:
         """Output the tree to a file, incrementing a suffix by one each time.
         """
-        self.visualize_graph(f"{file_prefix}{self._output_counter}")
+        suffix = str(self._output_counter).zfill(3)
+        self.visualize_graph(f"{file_prefix}{suffix}")
         self._output_counter += 1
 
     def _format_graph(self, node: str = None, level: int = 0) -> str:
