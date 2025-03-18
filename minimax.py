@@ -52,6 +52,9 @@ def main():
     minimax.select("r")
     minimax.visualize_graph_sequential("minimax")
 
+    minimax.set_value("r", 8)
+    minimax.visualize_graph_sequential("minimax")
+
     # Branch B
     minimax.select("b")
     minimax.visualize_graph_sequential("minimax")
@@ -78,6 +81,9 @@ def main():
     minimax.visualize_graph_sequential("minimax")
 
     minimax.select("r")
+    minimax.visualize_graph_sequential("minimax")
+
+    minimax.set_value("r", 12)
     minimax.visualize_graph_sequential("minimax")
 
     # Branch C
