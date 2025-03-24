@@ -1,5 +1,6 @@
 import os
 import subprocess
+from typing import Callable
 
 
 class NodeDoesNotExistException(Exception):
@@ -96,6 +97,12 @@ class GraphVizTree:
         suffix = str(self._output_counter).zfill(3)
         self.visualize_graph(f"{file_prefix}{suffix}")
         self._output_counter += 1
+
+    def sequencer(self, file_prefix: str) -> Callable:
+        def graph_step():
+            self.visualize_graph_sequential(file_prefix)
+
+        return graph_step
 
     def _format_graph(self, node: str = None, level: int = 0) -> str:
         """Format the graph for output with graphviz.
