@@ -1,5 +1,7 @@
+import io
 import os
 import subprocess
+import sys
 from typing import Callable
 
 
@@ -27,8 +29,10 @@ class GraphVizTree:
         self._resolution = resolution
         self._selected: list[str | None] = [None]
         self._selected_edge: tuple[str | None, str | None] = (None, None)
+        self._eliminated: dict[str, list[str]] = {}
         self._output_folder: str = os.path.join(os.getcwd(), output_folder)
         self._output_counter: int = 0
+        self._alpha_beta: dict[str, tuple[str, str]] = {}
 
     def node_exists(self, node: str) -> bool:
         """Return whether a node exists."""
@@ -64,12 +68,23 @@ class GraphVizTree:
                 raise NodeDoesNotExistException
 
     def select_edge(self, parent: str | None,
-                    child: str | None = None):
+                    child: str | None = None) -> None:
         """Select an edge to be highlighted when displayed."""
         if parent is None:
             self._selected_edge = (None, None)
         else:
             self._selected_edge = (parent, child)
+
+    def eliminate_edge(self, parent: str, child: str) -> None:
+        """Eliminate an edge to be grayed out when displayed."""
+        if parent not in self._eliminated.keys():
+            self._eliminated[parent] = []
+
+        self._eliminated[parent].append(child)
+
+    def set_alpha_beta(self, node: str, alpha: str, beta: str) -> None:
+        """Set alpha beta of a node."""
+        self._alpha_beta[node] = (alpha, beta)
 
     def visualize_graph(self, file_name: str) -> None:
         """Output the tree to a file.
@@ -88,7 +103,7 @@ class GraphVizTree:
 
         # Visualize with graphviz
         p = subprocess.Popen(["dot", "-Tpng", "-o", f"{output_file}"],
-                             stdin=subprocess.PIPE, text=True)
+                             stdin=subprocess.PIPE, text=True, encoding="utf-8")
         p.stdin.write(graph_code)
 
     def visualize_graph_sequential(self, file_prefix: str) -> None:
@@ -116,12 +131,31 @@ class GraphVizTree:
             node = self._root
             code += "graph {\n"
             code += f"resolution={self._resolution}\n"
+            code += f"node [shape=box]\n"
 
         # Add node code
-        node_code = f"{node} ["
-        node_code += f'label="{self.values[node] or ""}"'
+        node_code = f"{node} [label="
+        if node not in self._alpha_beta:
+            node_code += f'"{self.values[node] or ""}"'
+        else:
+            node_code += f"""<
+            <TABLE BORDER="0" CELLBORDER="0">
+                <TR>
+                    <TD COLSPAN="2">{self.values[node] or " "}</TD>
+                </TR>
+                <TR>
+                    <TD>{f"a={self._alpha_beta[node][0]}" if self._alpha_beta[node][0] else " "*6}</TD>
+                    <TD>{f"b={self._alpha_beta[node][1]}" if self._alpha_beta[node][1] else " "*6}</TD>
+                </TR>
+            </TABLE>
+            >"""
+
         if node in self._selected:
             node_code += ' fillcolor=green style=filled penwidth=2'
+        elif node in [node
+                      for nodelist in self._eliminated.values()
+                      for node in nodelist]:
+            node_code += ' color=gray60'
         node_code += "]\n"
         code += node_code
 
@@ -133,7 +167,10 @@ class GraphVizTree:
             code += f"{node} -- {child}"
             if (node == self._selected_edge[0]
                     and child == self._selected_edge[1]):
-                code += " [color=green penwidth=5]"
+                code += " [color=green penwidth=3]"
+            elif (node in self._eliminated.keys()
+                  and child in self._eliminated[node]):
+                code += f" [color=gray60]"
             else:
                 code += f" [color={edge_color}]"
             code += "\n"
