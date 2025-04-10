@@ -2,7 +2,7 @@ from tree import GraphVizTree
 
 
 def main():
-    ab_pruning = GraphVizTree("R", resolution=192,
+    ab_pruning = GraphVizTree("R", resolution=256,
                               output_folder="output/ab_pruning")
     step = ab_pruning.sequencer("ab_pruning")
 
