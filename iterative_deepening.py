@@ -10,20 +10,17 @@ def main():
 
     for i in range(per_layer):
         iterative_deepening.add_edge("R", f"v{i}")
-        print("R", '--', f"v{i}")
     step()
 
     for i in range(per_layer):
         for j in range(per_layer):
             iterative_deepening.add_edge(f"v{i}", f"v{i}v{j}")
-            print(f"v{i}", '--', f"v{i}v{j}")
     step()
 
     for i in range(per_layer):
         for j in range(per_layer):
             for ii in range(per_layer):
                 iterative_deepening.add_edge(f"v{i}v{j}", f"v{i}v{j}v{ii}")
-                print(f"v{i}v{j}", '--', f"v{i}v{j}v{ii}")
     step()
 
     for i in range(per_layer):
