@@ -1,7 +1,5 @@
-import io
 import os
 import subprocess
-import sys
 from typing import Callable
 
 
@@ -144,11 +142,12 @@ class GraphVizTree:
                     <TD COLSPAN="2">{self.values[node] or " "}</TD>
                 </TR>
                 <TR>
-                    <TD>{f"a={self._alpha_beta[node][0]}" if self._alpha_beta[node][0] else " "*6}</TD>
-                    <TD>{f"b={self._alpha_beta[node][1]}" if self._alpha_beta[node][1] else " "*6}</TD>
+                    <TD>{f"α={self._alpha_beta[node][0]}" if self._alpha_beta[node][0] else " "*4}</TD>
+                    <TD>{f"β={self._alpha_beta[node][1]}" if self._alpha_beta[node][1] else " "*4}</TD>
                 </TR>
             </TABLE>
             >"""
+        node_code += ' fontname="Consolas"'
 
         if node in self._selected:
             node_code += ' fillcolor=green style=filled penwidth=2'
@@ -167,7 +166,7 @@ class GraphVizTree:
             code += f"{node} -- {child}"
             if (node == self._selected_edge[0]
                     and child == self._selected_edge[1]):
-                code += " [color=green penwidth=3]"
+                code += " [color=green penwidth=5]"
             elif (node in self._eliminated.keys()
                   and child in self._eliminated[node]):
                 code += f" [color=gray60]"
