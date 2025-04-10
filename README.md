@@ -10,6 +10,8 @@ It doesn't actually implement the minimax algorithm or alpha-beta pruning. This 
 
 [Here's](https://docs.google.com/presentation/d/1meLMQG2bs-70P7D5bQUR7LbV_eX2IyHiOageeqeiqT4/edit?usp=sharing) a link to the slides I presented at the conference.
 
+[Here](./example) are the images you would get as output if you ran the program.
+
 ## How To Run
 
 No python packages are necessary, however you do need to have [graphviz](https://graphviz.org/download/) installed with the `Graphviz\bin` folder added to the PATH environment variable (which the Windows Installer will do automatically if you choose the right option, if you're on Linux I'm sure you can figure it out yourself).
