@@ -2,7 +2,7 @@
 
 The [Hudson River Undergraduate Mathematics Conference](https://sites.google.com/view/hrumc) has a fairly self-explanatory name. Basically, a bunch of undergraduates go to a conference. The cool part is that we can also give presentations to each other.
 
-Last year I had a great time and learned a ton from attending a bunch of presentations. This year, I decided to give a presentation myself.
+In 2024 I had a great time and learned a ton from attending a bunch of presentations. So in 2025, I decided to give a presentation myself.
 
 My talk was on the **minimax** algorithm. I used the code in this repository to help me visualize it. I was originally going to do this manually with an online graphviz editor, but it would take ages if I wanted to go back and change something, as I would have to change every image. So I wrote this code to help me with this.
 
